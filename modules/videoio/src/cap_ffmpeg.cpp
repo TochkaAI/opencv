@@ -41,6 +41,8 @@
 
 #include "precomp.hpp"
 
+#include <cstdint>
+
 #if defined(HAVE_FFMPEG)
 
 #include <string>
@@ -57,6 +59,9 @@
 #define icvCreateVideoWriter_FFMPEG_p cvCreateVideoWriter_FFMPEG
 #define icvReleaseVideoWriter_FFMPEG_p cvReleaseVideoWriter_FFMPEG
 #define icvWriteFrame_FFMPEG_p cvWriteFrame_FFMPEG
+#define icvGetLastRtcpNtpTime_FFMPEG_p cvGetLastRtcpNtpTime_FFMPEG
+#define icvGetLastRtcpTimestamp_FFMPEG_p cvGetLastRtcpTimestamp_FFMPEG
+#define icvGetTimestamp_FFMPEG_p cvGetTimestamp_FFMPEG
 
 #else
 
@@ -215,6 +220,18 @@ public:
     CvCapture_FFMPEG_proxy(const cv::String& filename) { ffmpegCapture = 0; open(filename); }
     virtual ~CvCapture_FFMPEG_proxy() { close(); }
 
+    virtual uint64_t getLastRtcpNtpTime() const CV_OVERRIDE
+    {
+        return ffmpegCapture ? icvGetLastRtcpNtpTime_FFMPEG_p(ffmpegCapture) : 0;
+    }
+    virtual uint32_t getLastRtcpTimestamp() const CV_OVERRIDE
+    {
+        return ffmpegCapture ? icvGetLastRtcpTimestamp_FFMPEG_p(ffmpegCapture) : 0;
+    }
+    virtual uint32_t getTimestamp() const CV_OVERRIDE
+    {
+        return ffmpegCapture ? icvGetTimestamp_FFMPEG_p(ffmpegCapture) : 0;
+    }
     virtual double getProperty(int propId) const CV_OVERRIDE
     {
         return ffmpegCapture ? icvGetCaptureProperty_FFMPEG_p(ffmpegCapture, propId) : 0;

@@ -179,6 +179,9 @@ namespace cv
         virtual bool retrieveFrame(int, OutputArray) = 0;
         virtual bool isOpened() const = 0;
         virtual int getCaptureDomain() { return CAP_ANY; } // Return the type of the capture object: CAP_VFW, etc...
+        virtual uint64_t getLastRtcpNtpTime() const { return 0; }
+        virtual uint32_t getLastRtcpTimestamp() const { return 0; }
+        virtual uint32_t getTimestamp() const { return 0; }
     };
 
     class IVideoWriter

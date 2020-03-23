@@ -49,6 +49,10 @@ OPENCV_FFMPEG_API int cvWriteFrame_FFMPEG(struct CvVideoWriter_FFMPEG* writer, c
                                           int step, int width, int height, int cn, int origin);
 OPENCV_FFMPEG_API void cvReleaseVideoWriter_FFMPEG(struct CvVideoWriter_FFMPEG** writer);
 
+OPENCV_FFMPEG_API uint64_t cvGetLastRtcpNtpTime_FFMPEG(CvCapture_FFMPEG* capture);
+OPENCV_FFMPEG_API uint32_t cvGetLastRtcpTimestamp_FFMPEG(CvCapture_FFMPEG* capture);
+OPENCV_FFMPEG_API uint32_t cvGetTimestamp_FFMPEG(CvCapture_FFMPEG* capture);
+
 typedef CvCapture_FFMPEG* (*CvCreateFileCapture_Plugin)( const char* filename );
 typedef CvCapture_FFMPEG* (*CvCreateCameraCapture_Plugin)( int index );
 typedef int (*CvGrabFrame_Plugin)( CvCapture_FFMPEG* capture_handle );

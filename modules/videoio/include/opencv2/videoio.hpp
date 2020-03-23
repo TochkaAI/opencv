@@ -836,6 +836,18 @@ public:
      */
     CV_WRAP String getBackendName() const;
 
+    /** @brief Return the last NTP time from RTCP packet
+      */
+    CV_WRAP virtual uint64_t getLastRtcpNtpTime() const;
+
+    /** @brief Return the last RTP timestamp from RTCP packet
+      */
+    CV_WRAP virtual uint32_t getLastRtcpTimestamp() const;
+
+    /** @brief Return timestamp from RTP packet
+      */
+    CV_WRAP virtual uint32_t getTimestamp() const;
+
 protected:
     Ptr<CvCapture> cap;
     Ptr<IVideoCapture> icap;

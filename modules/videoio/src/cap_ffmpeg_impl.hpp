@@ -492,7 +492,10 @@ struct CvCapture_FFMPEG
     int64_t get_total_frames() const;
     double  get_duration_sec() const;
     double  get_fps() const;
-    int64_t get_bitrate() const;
+    int     get_bitrate() const;
+    uint64_t get_last_rtcp_ntp_time() const;
+    uint32_t get_last_rtcp_timestamp() const;
+    uint32_t get_timestamp() const;
 
     double  r2d(AVRational r) const;
     int64_t dts_to_frame_number(int64_t dts);
@@ -1459,9 +1462,24 @@ double CvCapture_FFMPEG::get_duration_sec() const
     return sec;
 }
 
-int64_t CvCapture_FFMPEG::get_bitrate() const
+int CvCapture_FFMPEG::get_bitrate() const
 {
-    return ic->bit_rate / 1000;
+    return ic->bit_rate;
+}
+
+uint64_t CvCapture_FFMPEG::get_last_rtcp_ntp_time() const
+{
+    return packet.last_rtcp_ntp_time;
+}
+
+uint32_t CvCapture_FFMPEG::get_last_rtcp_timestamp() const
+{
+    return packet.last_rtcp_timestamp;
+}
+
+uint32_t CvCapture_FFMPEG::get_timestamp() const
+{
+    return packet.timestamp;
 }
 
 double CvCapture_FFMPEG::get_fps() const
@@ -2638,6 +2656,21 @@ int cvGrabFrame_FFMPEG(CvCapture_FFMPEG* capture)
 int cvRetrieveFrame_FFMPEG(CvCapture_FFMPEG* capture, unsigned char** data, int* step, int* width, int* height, int* cn)
 {
     return capture->retrieveFrame(0, data, step, width, height, cn);
+}
+
+uint64_t cvGetLastRtcpNtpTime_FFMPEG(CvCapture_FFMPEG* capture)
+{
+    return capture->get_last_rtcp_ntp_time();
+}
+
+uint32_t cvGetLastRtcpTimestamp_FFMPEG(CvCapture_FFMPEG* capture)
+{
+    return capture->get_last_rtcp_timestamp();
+}
+
+uint32_t cvGetTimestamp_FFMPEG(CvCapture_FFMPEG* capture)
+{
+    return capture->get_timestamp();
 }
 
 CvVideoWriter_FFMPEG* cvCreateVideoWriter_FFMPEG( const char* filename, int fourcc, double fps,

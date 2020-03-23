@@ -38,6 +38,7 @@
 // the use of this software, even if advised of the possibility of such damage.
 //
 //M*/
+#include <cstdint>
 
 #include "precomp.hpp"
 
@@ -307,6 +308,35 @@ double VideoCapture::get(int propId) const
     return cap ? cap->getProperty(propId) : 0;
 }
 
+uint64_t VideoCapture::getLastRtcpNtpTime() const
+{
+    uint64_t val = 0;
+
+    if (!icap.empty())
+        val = icap->getLastRtcpNtpTime();
+
+    return val;
+}
+
+uint32_t VideoCapture::getLastRtcpTimestamp() const
+{
+    uint32_t val = 0;
+
+    if (!icap.empty())
+        val = icap->getLastRtcpTimestamp();
+
+    return val;
+}
+
+uint32_t VideoCapture::getTimestamp() const
+{
+    uint32_t val = 0;
+
+    if (!icap.empty())
+        val = icap->getTimestamp();
+
+    return val;
+}
 
 //=================================================================================================
 
